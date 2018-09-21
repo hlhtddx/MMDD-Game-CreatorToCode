@@ -1,0 +1,25 @@
+type project
+{
+    engine : string;
+    packages : string;
+}
+
+type node
+{
+    __type__ : string;
+}
+
+type id {
+    id, "__id__" : int;
+}
+
+type array {
+    a : int[123];
+}
+
+type scene {
+    name, "_name" : string = "";
+    objFlags, "_objFlags" : int = 0;
+    rawFiles, "_rawFiles" : string;
+    scene : id;
+}

@@ -1,0 +1,466 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    LPAREN
+    RPAREN
+    PERIOD
+
+Grammar
+
+Rule 0     S' -> schema
+Rule 1     schema -> schema typedef
+Rule 2     schema -> typedef
+Rule 3     typedef -> TYPE ID LBRACE properties RBRACE
+Rule 4     properties -> properties property
+Rule 5     properties -> property
+Rule 6     property -> ID COLON type SEMI
+Rule 7     property -> ID COLON type ASSIGN constant SEMI
+Rule 8     property -> ID COMMA SCONST COLON type SEMI
+Rule 9     property -> ID COMMA SCONST COLON type ASSIGN constant SEMI
+Rule 10    array -> type LBRACKET ICONST RBRACKET
+Rule 11    array -> type LBRACKET ID RBRACKET
+Rule 12    type -> INT
+Rule 13    type -> FLOAT
+Rule 14    type -> STRING
+Rule 15    type -> ID
+Rule 16    type -> array
+Rule 17    constant -> ICONST
+Rule 18    constant -> FCONST
+Rule 19    constant -> SCONST
+Rule 20    constant -> TRUE
+Rule 21    constant -> FALSE
+
+Terminals, with rules where they appear
+
+ASSIGN               : 7 9
+COLON                : 6 7 8 9
+COMMA                : 8 9
+FALSE                : 21
+FCONST               : 18
+FLOAT                : 13
+ICONST               : 10 17
+ID                   : 3 6 7 8 9 11 15
+INT                  : 12
+LBRACE               : 3
+LBRACKET             : 10 11
+LPAREN               : 
+PERIOD               : 
+RBRACE               : 3
+RBRACKET             : 10 11
+RPAREN               : 
+SCONST               : 8 9 19
+SEMI                 : 6 7 8 9
+STRING               : 14
+TRUE                 : 20
+TYPE                 : 3
+error                : 
+
+Nonterminals, with rules where they appear
+
+array                : 16
+constant             : 7 9
+properties           : 3 4
+property             : 4 5
+schema               : 1 0
+type                 : 6 7 8 9 10 11
+typedef              : 1 2
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . schema
+    (1) schema -> . schema typedef
+    (2) schema -> . typedef
+    (3) typedef -> . TYPE ID LBRACE properties RBRACE
+
+    TYPE            shift and go to state 2
+
+    schema                         shift and go to state 1
+    typedef                        shift and go to state 3
+
+state 1
+
+    (0) S' -> schema .
+    (1) schema -> schema . typedef
+    (3) typedef -> . TYPE ID LBRACE properties RBRACE
+
+    TYPE            shift and go to state 2
+
+    typedef                        shift and go to state 4
+
+state 2
+
+    (3) typedef -> TYPE . ID LBRACE properties RBRACE
+
+    ID              shift and go to state 5
+
+
+state 3
+
+    (2) schema -> typedef .
+
+    TYPE            reduce using rule 2 (schema -> typedef .)
+    $end            reduce using rule 2 (schema -> typedef .)
+
+
+state 4
+
+    (1) schema -> schema typedef .
+
+    TYPE            reduce using rule 1 (schema -> schema typedef .)
+    $end            reduce using rule 1 (schema -> schema typedef .)
+
+
+state 5
+
+    (3) typedef -> TYPE ID . LBRACE properties RBRACE
+
+    LBRACE          shift and go to state 6
+
+
+state 6
+
+    (3) typedef -> TYPE ID LBRACE . properties RBRACE
+    (4) properties -> . properties property
+    (5) properties -> . property
+    (6) property -> . ID COLON type SEMI
+    (7) property -> . ID COLON type ASSIGN constant SEMI
+    (8) property -> . ID COMMA SCONST COLON type SEMI
+    (9) property -> . ID COMMA SCONST COLON type ASSIGN constant SEMI
+
+    ID              shift and go to state 7
+
+    properties                     shift and go to state 9
+    property                       shift and go to state 8
+
+state 7
+
+    (6) property -> ID . COLON type SEMI
+    (7) property -> ID . COLON type ASSIGN constant SEMI
+    (8) property -> ID . COMMA SCONST COLON type SEMI
+    (9) property -> ID . COMMA SCONST COLON type ASSIGN constant SEMI
+
+    COLON           shift and go to state 10
+    COMMA           shift and go to state 11
+
+
+state 8
+
+    (5) properties -> property .
+
+    RBRACE          reduce using rule 5 (properties -> property .)
+    ID              reduce using rule 5 (properties -> property .)
+
+
+state 9
+
+    (3) typedef -> TYPE ID LBRACE properties . RBRACE
+    (4) properties -> properties . property
+    (6) property -> . ID COLON type SEMI
+    (7) property -> . ID COLON type ASSIGN constant SEMI
+    (8) property -> . ID COMMA SCONST COLON type SEMI
+    (9) property -> . ID COMMA SCONST COLON type ASSIGN constant SEMI
+
+    RBRACE          shift and go to state 12
+    ID              shift and go to state 7
+
+    property                       shift and go to state 13
+
+state 10
+
+    (6) property -> ID COLON . type SEMI
+    (7) property -> ID COLON . type ASSIGN constant SEMI
+    (12) type -> . INT
+    (13) type -> . FLOAT
+    (14) type -> . STRING
+    (15) type -> . ID
+    (16) type -> . array
+    (10) array -> . type LBRACKET ICONST RBRACKET
+    (11) array -> . type LBRACKET ID RBRACKET
+
+    INT             shift and go to state 16
+    FLOAT           shift and go to state 15
+    STRING          shift and go to state 19
+    ID              shift and go to state 14
+
+    array                          shift and go to state 17
+    type                           shift and go to state 18
+
+state 11
+
+    (8) property -> ID COMMA . SCONST COLON type SEMI
+    (9) property -> ID COMMA . SCONST COLON type ASSIGN constant SEMI
+
+    SCONST          shift and go to state 20
+
+
+state 12
+
+    (3) typedef -> TYPE ID LBRACE properties RBRACE .
+
+    TYPE            reduce using rule 3 (typedef -> TYPE ID LBRACE properties RBRACE .)
+    $end            reduce using rule 3 (typedef -> TYPE ID LBRACE properties RBRACE .)
+
+
+state 13
+
+    (4) properties -> properties property .
+
+    RBRACE          reduce using rule 4 (properties -> properties property .)
+    ID              reduce using rule 4 (properties -> properties property .)
+
+
+state 14
+
+    (15) type -> ID .
+
+    SEMI            reduce using rule 15 (type -> ID .)
+    ASSIGN          reduce using rule 15 (type -> ID .)
+    LBRACKET        reduce using rule 15 (type -> ID .)
+
+
+state 15
+
+    (13) type -> FLOAT .
+
+    SEMI            reduce using rule 13 (type -> FLOAT .)
+    ASSIGN          reduce using rule 13 (type -> FLOAT .)
+    LBRACKET        reduce using rule 13 (type -> FLOAT .)
+
+
+state 16
+
+    (12) type -> INT .
+
+    SEMI            reduce using rule 12 (type -> INT .)
+    ASSIGN          reduce using rule 12 (type -> INT .)
+    LBRACKET        reduce using rule 12 (type -> INT .)
+
+
+state 17
+
+    (16) type -> array .
+
+    SEMI            reduce using rule 16 (type -> array .)
+    ASSIGN          reduce using rule 16 (type -> array .)
+    LBRACKET        reduce using rule 16 (type -> array .)
+
+
+state 18
+
+    (6) property -> ID COLON type . SEMI
+    (7) property -> ID COLON type . ASSIGN constant SEMI
+    (10) array -> type . LBRACKET ICONST RBRACKET
+    (11) array -> type . LBRACKET ID RBRACKET
+
+    SEMI            shift and go to state 23
+    ASSIGN          shift and go to state 22
+    LBRACKET        shift and go to state 21
+
+
+state 19
+
+    (14) type -> STRING .
+
+    SEMI            reduce using rule 14 (type -> STRING .)
+    ASSIGN          reduce using rule 14 (type -> STRING .)
+    LBRACKET        reduce using rule 14 (type -> STRING .)
+
+
+state 20
+
+    (8) property -> ID COMMA SCONST . COLON type SEMI
+    (9) property -> ID COMMA SCONST . COLON type ASSIGN constant SEMI
+
+    COLON           shift and go to state 24
+
+
+state 21
+
+    (10) array -> type LBRACKET . ICONST RBRACKET
+    (11) array -> type LBRACKET . ID RBRACKET
+
+    ICONST          shift and go to state 26
+    ID              shift and go to state 25
+
+
+state 22
+
+    (7) property -> ID COLON type ASSIGN . constant SEMI
+    (17) constant -> . ICONST
+    (18) constant -> . FCONST
+    (19) constant -> . SCONST
+    (20) constant -> . TRUE
+    (21) constant -> . FALSE
+
+    ICONST          shift and go to state 31
+    FCONST          shift and go to state 32
+    SCONST          shift and go to state 28
+    TRUE            shift and go to state 29
+    FALSE           shift and go to state 27
+
+    constant                       shift and go to state 30
+
+state 23
+
+    (6) property -> ID COLON type SEMI .
+
+    RBRACE          reduce using rule 6 (property -> ID COLON type SEMI .)
+    ID              reduce using rule 6 (property -> ID COLON type SEMI .)
+
+
+state 24
+
+    (8) property -> ID COMMA SCONST COLON . type SEMI
+    (9) property -> ID COMMA SCONST COLON . type ASSIGN constant SEMI
+    (12) type -> . INT
+    (13) type -> . FLOAT
+    (14) type -> . STRING
+    (15) type -> . ID
+    (16) type -> . array
+    (10) array -> . type LBRACKET ICONST RBRACKET
+    (11) array -> . type LBRACKET ID RBRACKET
+
+    INT             shift and go to state 16
+    FLOAT           shift and go to state 15
+    STRING          shift and go to state 19
+    ID              shift and go to state 14
+
+    array                          shift and go to state 17
+    type                           shift and go to state 33
+
+state 25
+
+    (11) array -> type LBRACKET ID . RBRACKET
+
+    RBRACKET        shift and go to state 34
+
+
+state 26
+
+    (10) array -> type LBRACKET ICONST . RBRACKET
+
+    RBRACKET        shift and go to state 35
+
+
+state 27
+
+    (21) constant -> FALSE .
+
+    SEMI            reduce using rule 21 (constant -> FALSE .)
+
+
+state 28
+
+    (19) constant -> SCONST .
+
+    SEMI            reduce using rule 19 (constant -> SCONST .)
+
+
+state 29
+
+    (20) constant -> TRUE .
+
+    SEMI            reduce using rule 20 (constant -> TRUE .)
+
+
+state 30
+
+    (7) property -> ID COLON type ASSIGN constant . SEMI
+
+    SEMI            shift and go to state 36
+
+
+state 31
+
+    (17) constant -> ICONST .
+
+    SEMI            reduce using rule 17 (constant -> ICONST .)
+
+
+state 32
+
+    (18) constant -> FCONST .
+
+    SEMI            reduce using rule 18 (constant -> FCONST .)
+
+
+state 33
+
+    (8) property -> ID COMMA SCONST COLON type . SEMI
+    (9) property -> ID COMMA SCONST COLON type . ASSIGN constant SEMI
+    (10) array -> type . LBRACKET ICONST RBRACKET
+    (11) array -> type . LBRACKET ID RBRACKET
+
+    SEMI            shift and go to state 38
+    ASSIGN          shift and go to state 37
+    LBRACKET        shift and go to state 21
+
+
+state 34
+
+    (11) array -> type LBRACKET ID RBRACKET .
+
+    SEMI            reduce using rule 11 (array -> type LBRACKET ID RBRACKET .)
+    ASSIGN          reduce using rule 11 (array -> type LBRACKET ID RBRACKET .)
+    LBRACKET        reduce using rule 11 (array -> type LBRACKET ID RBRACKET .)
+
+
+state 35
+
+    (10) array -> type LBRACKET ICONST RBRACKET .
+
+    SEMI            reduce using rule 10 (array -> type LBRACKET ICONST RBRACKET .)
+    ASSIGN          reduce using rule 10 (array -> type LBRACKET ICONST RBRACKET .)
+    LBRACKET        reduce using rule 10 (array -> type LBRACKET ICONST RBRACKET .)
+
+
+state 36
+
+    (7) property -> ID COLON type ASSIGN constant SEMI .
+
+    RBRACE          reduce using rule 7 (property -> ID COLON type ASSIGN constant SEMI .)
+    ID              reduce using rule 7 (property -> ID COLON type ASSIGN constant SEMI .)
+
+
+state 37
+
+    (9) property -> ID COMMA SCONST COLON type ASSIGN . constant SEMI
+    (17) constant -> . ICONST
+    (18) constant -> . FCONST
+    (19) constant -> . SCONST
+    (20) constant -> . TRUE
+    (21) constant -> . FALSE
+
+    ICONST          shift and go to state 31
+    FCONST          shift and go to state 32
+    SCONST          shift and go to state 28
+    TRUE            shift and go to state 29
+    FALSE           shift and go to state 27
+
+    constant                       shift and go to state 39
+
+state 38
+
+    (8) property -> ID COMMA SCONST COLON type SEMI .
+
+    RBRACE          reduce using rule 8 (property -> ID COMMA SCONST COLON type SEMI .)
+    ID              reduce using rule 8 (property -> ID COMMA SCONST COLON type SEMI .)
+
+
+state 39
+
+    (9) property -> ID COMMA SCONST COLON type ASSIGN constant . SEMI
+
+    SEMI            shift and go to state 40
+
+
+state 40
+
+    (9) property -> ID COMMA SCONST COLON type ASSIGN constant SEMI .
+
+    RBRACE          reduce using rule 9 (property -> ID COMMA SCONST COLON type ASSIGN constant SEMI .)
+    ID              reduce using rule 9 (property -> ID COMMA SCONST COLON type ASSIGN constant SEMI .)
+
