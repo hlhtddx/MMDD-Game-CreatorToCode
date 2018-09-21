@@ -43,7 +43,7 @@ def p_properties(p):
     if len(p) == 2:
         prop = p[1]
         id = prop.id
-        properties = { id : prop }
+        properties = {}
     elif len(p) == 3:
         prop = p[2]
         id = prop.id
@@ -52,6 +52,7 @@ def p_properties(p):
             raise Exception('Duplicated property %s' % id)
     else:
         raise Exception()
+    properties[id] = prop
     p[0] = properties
     print(logtag, p[0])
 
@@ -90,7 +91,8 @@ def p_property(p):
 
 
 def p_array(p):
-    """array : type LBRACKET ICONST RBRACKET
+    """array : type LBRACKET RBRACKET
+                | type LBRACKET ICONST RBRACKET
                 | type LBRACKET ID RBRACKET"""
     logtag = 'array'
     schema = p.parser.schema
@@ -103,6 +105,7 @@ def p_array(p):
 
 def p_type(p):
     """type : INT
+                | UBYTE
                 | FLOAT
                 | STRING
                 | ID

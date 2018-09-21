@@ -4,17 +4,79 @@ type project
     packages : string;
 }
 
-type node
-{
-    __type__ : string;
-}
-
 type id {
     id, "__id__" : int;
 }
+type Vec2
+{
+    x:float;
+    y:float;
+}
 
-type array {
-    a : int[123];
+type Vec3
+{
+    x:float;
+    y:float;
+    z:float;
+}
+
+type Size
+{
+    w:float;
+    h:float;
+}
+
+type Rect
+{
+    x:float;
+    y:float;
+    w:float;
+    h:float;
+}
+
+type RGB
+{
+    r:ubyte;
+    g:ubyte;
+    b:ubyte;
+}
+
+type RGBA
+{
+    r:ubyte;
+    g:ubyte;
+    b:ubyte;
+    a:ubyte;
+}
+
+type LabelOutline
+{
+    color:ColorRGBA;
+    width:float;
+}
+
+type node
+{
+    __type__ : string;
+	contentSize , "_contentSize" : Size;
+	enabled , "_active" : bool;
+	name , "_name" : string;
+	anchorPoint , "_anchorPoint" : Vec2;
+	cascadeOpacityEnabled , "_cascadeOpacityEnabled" : bool;
+	color , "_color" : RGB;
+	globalZOrder , "_globalZOrder" : int;
+	localZOrder , "_localZOrder" : int;
+	opacity , "_opacity" : int;
+	opacityModifyRGB , "_opacityModifyRGB" : bool;
+	position , "_position" : Vec2;
+	rotationSkewX , "_rotationX" : int;
+	rotationSkewY , "_rotationY" : int;
+	scaleX , "_scaleX" : int;
+	scaleY , "_scaleY" : int;
+	skewX , "_skewX" : int;
+	skewY , "_skewY" : int;
+	tag , "_tag" : int;
+	groupIndex , "groupIndex" : int;
 }
 
 type scene {

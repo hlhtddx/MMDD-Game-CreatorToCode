@@ -4,7 +4,7 @@ import ply.lex as lex
 
 # Reserved words
 reserved = (
-    'TYPE', 'INT', 'FLOAT', 'STRING', 'TRUE', 'FALSE'
+    'TYPE', 'UBYTE', 'INT', 'FLOAT', 'STRING', 'TRUE', 'FALSE'
 )
 
 tokens = reserved + (

@@ -1,0 +1,5 @@
+venv
+**/*.pyc
+.idea
+CCreatorParser/parser.out
+CCreatorParser/parsetab.py

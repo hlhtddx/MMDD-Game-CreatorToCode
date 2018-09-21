@@ -2,17 +2,18 @@ class Type:
     type_none = -1
     type_compound = 0
     type_int = 1
-    type_float = 2
-    type_string = 3
-    type_bool = 4
-    type_array = 5
+    type_ubyte = 2
+    type_float = 3
+    type_string = 4
+    type_bool = 5
+    type_array = 6
 
-    def __init__(self, type, name):
+    def __init__(self, type, id):
         self.type_code = type
-        self.name = name
+        self.id = id
 
     def __repr__(self):
-        return self.name
+        return self.id
 
 class TypeArray(Type):
     def __init__(self, type):
@@ -20,13 +21,7 @@ class TypeArray(Type):
         self.base_type = type
 
     def __repr__(self):
-        return self.base_type + '[]'
-
-
-class TypeCompound(Type):
-    def __init__(self, name, properties):
-        super().__init__(Type.type_compound, name)
-        self.properties = properties
+        return repr(self.base_type) + '[]'
 
 
 class Property:
@@ -36,19 +31,29 @@ class Property:
         self.type = type
         self.default_value = default_value
 
+    def __repr__(self):
+        return "{}, {}: {} = {};\n".format(self.tag, self.id, self.type, self.default_value)
 
-class TypeDef:
+
+class TypeDef(Type):
     def __init__(self, id, properties):
-        self.id = id
+        super().__init__(Type.type_compound, id)
         self.properties = properties
 
+    def __repr__(self):
+        s = self.id + ' {\n'
+        for prop in self.properties.values():
+            s += ' {} '.format(prop)
+        s += '}\n'
+        # s = '{} [ {} ]'.format(self.id, self.properties)
+        return s
 
 class Schema:
     def __init__(self):
         self.type_map = {}
         for type in (
-        ('int', Type.type_int), ('float', Type.type_float), ('string', Type.type_string), ('bool', Type.type_bool)):
-            self.type_map[type[0]] = Type(type[0], type[1])
+        ('int', Type.type_int), ('ubyte', Type.type_ubyte), ('float', Type.type_float), ('string', Type.type_string), ('bool', Type.type_bool)):
+            self.type_map[type[0]] = Type(type[1], type[0])
         self.unresolved_types = {}
 
     def _resolve_type_name(self, id, typedef):
