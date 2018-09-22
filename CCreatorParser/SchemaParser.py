@@ -20,17 +20,24 @@ def p_schema(p):
         raise Exception()
     schema.append_type(typedef)
     p[0] = schema
+    if len(schema.unresolved_types) > 0:
+        raise Exception('There is still unresolved symbols')
     print(logtag, p[0])
 
 
 def p_typedef(p):
-    """typedef : TYPE ID LBRACE properties RBRACE"""
+    """typedef : CLASS ID LBRACE properties RBRACE
+                | CLASS ID COLON SCONST LBRACE properties RBRACE"""
     logtag = 'typedef'
     schema = p.parser.schema
-    type = p[1]
-    id = p[2]
-    properties = p[4]
-    typedef = TypeDef(id, properties)
+    identifier = p[2]
+    tag = None
+    if len(p) == 6:
+        properties = p[4]
+    else:
+        tag = p[4]
+        properties = p[6]
+    typedef = TypeDef(identifier, tag, properties)
     p[0] = typedef
     print(logtag, p[0])
 
@@ -42,17 +49,17 @@ def p_properties(p):
     schema = p.parser.schema
     if len(p) == 2:
         prop = p[1]
-        id = prop.id
+        identifier = prop.identifier
         properties = {}
     elif len(p) == 3:
         prop = p[2]
-        id = prop.id
+        identifier = prop.identifier
         properties = p[1]
-        if id in properties:
-            raise Exception('Duplicated property %s' % id)
+        if identifier in properties:
+            raise Exception('Duplicated property %s' % identifier)
     else:
         raise Exception()
-    properties[id] = prop
+    properties[identifier] = prop
     p[0] = properties
     print(logtag, p[0])
 
@@ -66,14 +73,14 @@ def p_property(p):
     schema = p.parser.schema
 
     tag = None
-    id = p[1]
+    identifier = p[1]
     default_value = None
     type = None
 
     if len(p) == 5:
         type = p[3]
     elif len(p) == 7:
-        if p[2] == ',':
+        if p[2] == ':':
             type = p[3]
             default_value = p[5]
         else:
@@ -83,8 +90,8 @@ def p_property(p):
         tag = p[3]
         type = p[5]
         default_value = p[7]
-    prop = Property(tag, id, type, default_value)
-    if type is str:
+    prop = Property(tag, identifier, type, default_value)
+    if isinstance(type, str):
         schema.watch_for_typedef(type, prop)
     p[0] = prop
     print(logtag, p[0])
@@ -98,7 +105,7 @@ def p_array(p):
     schema = p.parser.schema
     base_type = p[1]
     p[0] = TypeArray(base_type)
-    if base_type is str:
+    if isinstance(base_type, str):
         schema.watch_for_typedef(base_type, p[0])
     print(logtag, p[0])
 
@@ -108,6 +115,7 @@ def p_type(p):
                 | UBYTE
                 | FLOAT
                 | STRING
+                | VARIANT
                 | ID
                 | array"""
 
@@ -117,7 +125,7 @@ def p_type(p):
         p[0] = p[1]
     else:
         p[0] = schema.get_type(type.value)
-    print('p_type', p[0])
+    print('p_class', p[0])
 
 
 def p_constant(p):
@@ -143,8 +151,9 @@ def p_constant(p):
         raise Exception('Invalid constant type:' + str(constant))
     print('p_constant', p[0])
 
+
 def p_error(p):
-    print(p)
+    print('Error occurs:', p)
 
 
 if __name__ == '__main__':

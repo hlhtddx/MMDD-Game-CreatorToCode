@@ -1,65 +1,76 @@
-type project
+class project
 {
     engine : string;
     packages : string;
 }
 
-type id {
-    id, "__id__" : int;
-}
-type Vec2
-{
-    x:float;
-    y:float;
+class id {
+    __id__ : int;
 }
 
-type Vec3
-{
-    x:float;
-    y:float;
-    z:float;
+class uuid {
+    __uuid__ : string;
 }
 
-type Size
+class Vec2
 {
-    w:float;
-    h:float;
+    x : float;
+    y : float;
 }
 
-type Rect
+class Vec3
 {
-    x:float;
-    y:float;
-    w:float;
-    h:float;
+    x : float;
+    y : float;
+    z : float;
 }
 
-type RGB
+class Size
 {
-    r:ubyte;
-    g:ubyte;
-    b:ubyte;
+    w : float;
+    h : float;
 }
 
-type RGBA
+class Rect
 {
-    r:ubyte;
-    g:ubyte;
-    b:ubyte;
-    a:ubyte;
+    x : float;
+    y : float;
+    w : float;
+    h : float;
 }
 
-type LabelOutline
+class RGB
 {
-    color:ColorRGBA;
-    width:float;
+    r : ubyte;
+    g : ubyte;
+    b : ubyte;
 }
 
-type node
+class RGBA
+{
+    r : ubyte;
+    g : ubyte;
+    b : ubyte;
+    a : ubyte;
+}
+
+class LabelOutline
+{
+    color : RGBA;
+    width : float;
+}
+
+class fire
+{
+    nodes, "" : variant[];
+}
+
+class node
 {
     __type__ : string;
 	contentSize , "_contentSize" : Size;
-	enabled , "_active" : bool;
+	active , "_active" : bool;
+	enabled , "_enabled" : bool;
 	name , "_name" : string;
 	anchorPoint , "_anchorPoint" : Vec2;
 	cascadeOpacityEnabled , "_cascadeOpacityEnabled" : bool;
@@ -77,11 +88,493 @@ type node
 	skewY , "_skewY" : int;
 	tag , "_tag" : int;
 	groupIndex , "groupIndex" : int;
-}
-
-type scene {
-    name, "_name" : string = "";
     objFlags, "_objFlags" : int = 0;
     rawFiles, "_rawFiles" : string;
+    node : id;
+    parent, "_parent": id;
+    children, "_children" : id[];
+}
+
+class Button : "cc.Button" {
+    super : node;
+    transition : int;
+    duration : float;
+    zoomScale : float;
+
+//background
+    normalColor, "_N$normalColor": RGBA;
+    disabledColor, "_N$disabledColor": RGBA;
+    pressColor : RGBA;
+    hoverColor : RGBA;
+
+    normalSprite, "_N$normalSprite": uuid;
+    disabledSprite, "_N$disabledSprite": uuid;
+    pressSprite : uuid;
+    hoverSprite : uuid;
+
+    target, "_N$target": id;
+
+//events
+    interactable, "_N$interactable": bool;
+    enableAutoGrayEffect, "_N$enableAutoGrayEffect": bool;
+    clickEvents : id[];
+}
+
+class Canvas : "cc.Canvas" {
+    super : node;
+    _designResolution : Size;
+    _fitWidth : bool;
+    _fitHeight : bool;
+
+}
+
+class BoxCollider : "cc.BoxCollider" {
+    super : node;
+    _offset : Vec2;
+    _size : Size;
+}
+
+class CircleCollider : "cc.CircleCollider" {
+    super : node;
+    _offset : Vec2;
+    points : Vec2[];
+}
+
+class PolygonCollider : "cc.PolygonCollider" {
+    super : node;
+    _offset : Vec2;
+    _size : Size;
+}
+
+class EditBox : "cc.EditBox" {
+    super : node;
+    _useOriginalSize: bool;
+    _string: string;
+    _tabIndex : float;
+    editingDidBegan : id[];
+    textChanged : id[];
+    editingDidEnded : id[];
+    editingReturn : id[];
+    backgroundImage, "_N$backgroundImage": uuid;
+    returnType, "_N$returnType": int;
+    inputFlag, "_N$inputFlag": int;
+    inputMode, "_N$inputMode": int;
+    fontSize, "_N$fontSize": int;
+    lineHeight, "_N$lineHeight": int;
+    fontColor, "_N$fontColor": RGBA;
+    placeholder, "_N$placeholder": string;
+    placeholderFontSize, "_N$placeholderFontSize": int;
+    placeholderFontColor, "_N$placeholderFontColor": RGBA;
+    maxLength, "_N$maxLength": int;
+    stayOnTop, "_N$stayOnTop": bool;
+}
+
+class Label : "cc.Label" {
+    super : node;
+    _useOriginalSize : bool;
+    _actualFontSize : int;
+    _fontSize : int;
+    _lineHeight : int;
+    _enableWrapText : bool;
+    file, "_N$file" : uuid;
+    _isSystemFontUsed : bool;
+    _spacingX : int;
+    _string, "_N$string" : string;
+    horizontalAlign, "_N$horizontalAlign" : int;
+    verticalAlign, "_N$verticalAlign" : int;
+    overflow, "_N$overflow" : int;
+}
+
+class Layout : "cc.Layout" {
+    super : node;
+    _layoutSize : Size;
+    _resize : int;
+    layoutType , "_N$layoutType" : int;
+    padding , "_N$padding" : int;
+    cellSize , "_N$cellSize" : Size;
+    startAxis , "_N$startAxis" : int;
+    paddingLeft , "_N$paddingLeft" : int;
+    paddingRight , "_N$paddingRight" : int;
+    paddingTop , "_N$paddingTop" : int;
+    paddingBottom , "_N$paddingBottom" : int;
+    spacingX , "_N$spacingX" : int;
+    spacingY , "_N$spacingY" : int;
+    verticalDirection , "_N$verticalDirection" : int;
+    horizontalDirection , "_N$horizontalDirection" : int;
+}
+
+class Mask : "cc.Mask" {
+    super : node;
+    _type : int;
+    _segements : int;
+    spriteFrame, "_N$spriteFrame": uuid;
+    alphaThreshold, "_N$alphaThreshold": int;
+    inverted, "_N$inverted": bool;
+}
+
+class MotionStreak : "cc.MotionStreak" {
+    super : node;
+    _fadeTime : int;
+    _minSeg : int;
+    _stroke : int;
+    _texture : uuid;
+    _color : rga;
+    _fastMode : bool;
+    preview, "_N$preview": bool;
+}
+
+class PageViewIndicator : "cc.PageViewIndicator"
+{
+    super : node;
+    _layout : null;
+    _pageView : id;
+    _indicators : id[];
+    spriteFrame : uuid;
+    direction : int;
+    cellSize : Size;
+    spacing: int;
+}
+
+class PageView : "cc.PageView" {
+    super : node;
+    content : id;
+    horizontal : bool;
+    vertical : bool;
+    inertia : bool;
+    brake : bool;
+    elastic : bool;
+    bounceDuration : bool;
+    scrollEvents : id[];
+    cancelInnerEvents : bool;
+    scrollThreshold : float;
+    autoPageTurningThreshold : int;
+    pageTurningEventTiming : float;
+    pageEvents : id[];
+    sizeMode, "_N$sizeMode": int;
+    direction, "_N$direction": int;
+    indicator, "_N$indicator": id;
+}
+
+class ParticleSystem : "cc.ParticleSystem" {
+    super : node;
+    _custom : bool;
+    _file : uuid;
+    _srcBlendFactor : int;
+    _dstBlendFactor : int;
+    playOnLoad : bool;
+    _autoRemoveOnFinish : bool;
+    _totalParticles : int;
+    _duration : int;
+    _emissionRate : int;
+    _life : int;
+    _lifeVar : int;
+    _startColor : RGBA;
+    _startColorVar : RGBA;
+    _endColor : RGBA;
+    _endColorVar : RGBA;
+    _angle : int;
+    _angleVar : int;
+    _startSize : int;
+    _startSizeVar : int;
+    _endSize : int;
+    _endSizeVar : int;
+    _startSpin : int;
+    _startSpinVar : int;
+    _endSpin : int;
+    _endSpinVar : int;
+    _sourcePos : Vec2;
+    _posVar : Vec2;
+    _positionType : int;
+    _emitterMode : int;
+    _gravity : Vec2;
+    _speed : int;
+    _speedVar : int;
+    _tangentialAccel : int;
+    _tangentialAccelVar : int;
+    _radialAccel : int;
+    _radialAccelVar : int;
+    _rotationIsDir : bool;
+    _startRadius : int;
+    _startRadiusVar : int;
+    _endRadius : int;
+    _endRadiusVar : int;
+    _rotatePerS : int;
+    _rotatePerSVar : int;
+    preview, "_N$preview": bool;
+}
+
+class Prefab : "cc.Prefab" {
+    nodes : variant[];
+}
+
+class PrefabInfo : "cc.PrefabInfo" {
+    root : id;
+    asset : uuid;
+    fileId : string;
+    sync : bool;
+}
+
+class ProgressBar : "cc.ProgressBar" {
+    super : node;
+    totalLength, "_N$totalLength": int;
+    barSprite, "_N$barSprite": id;
+    mode, "_N$mode": int;
+    progress, "_N$progress": float;
+    reverse, "_N$reverse": bool;
+}
+
+class RichText : "cc.RichText" {
+    super : node;
+    _string , "_N$string" : string;
+    horizontalAlign , "_N$horizontalAlign" : int;
+    fontSize , "_N$fontSize" : int;
+    font , "_N$font" : uuid;
+    maxWidth , "_N$maxWidth" : int;
+    lineHeight , "_N$lineHeight" : int;
+    imageAtlas , "_N$imageAtlas" : uuid;
+    handleTouchEvent , "_N$handleTouchEvent" : bool;
+}
+
+class SceneAssert : "cc.SceneAssert" {
+    super : node;
     scene : id;
+}
+
+class Scene : "cc.Scene" {
+    super : node;
+    _id : string;
+    autoReleaseAssets : bool;
+}
+
+class ScrollBar : "cc.ScrollBar" {
+    super : node;
+    _scrollView : id;
+    _touching : bool;
+    _opacity : int;
+    enableAutoHide : bool;
+    autoHideTime : int;
+    handle : id;
+    direction : int;
+}
+
+class ScrollView : "cc.ScrollView" {
+    super : node;
+    content : id;
+    horizontal : bool;
+    vertical : bool;
+    inertia : bool;
+    brake : float;
+    elastic : bool;
+    bounceDuration : float;
+    scrollEvents : id[];
+    cancelInnerEvents : bool;
+    horizontalScrollBar , "_N$horizontalScrollBar" : id;
+    verticalScrollBar , "_N$verticalScrollBar" : id;
+}
+
+class Slider : "cc.Slider" {
+    super : node;
+     direction : int;
+     slideEvents : id[];
+    handle , "_N$handle" : id;
+    progress , "_N$progress" : int;
+}
+
+class Skeleton : "sp.Skeleton" {
+    super : node;
+    _paused : bool;
+    defaultSkin : string;
+    defaultAnimation : string;
+    loop : bool;
+    _premultipliedAlpha : bool;
+    skeletonData , "_N$skeletonData" : uuid;
+    timeScale , "_N$timeScale" : int;
+    debugSlots , "_N$debugSlots" : bool;
+    debugBones , "_N$debugBones" : bool;
+}
+
+class Sprite : "cc.Sprite" {
+    super : node;
+    _spriteFrame : uuid;
+    _type : int;
+    _sizeMode : int;
+    _fillType : int;
+    _fillCenter : Vec2;
+    _fillStart : int;
+    _fillRange : int;
+    _isTrimmedMode : bool;
+    _srcBlendFactor : int;
+    _dstBlendFactor : int;
+    _atlas : uuid;
+}
+
+class TileMap : "cc.TiledMap" {
+    super : node;
+    _tmxFile : uuid;
+}
+
+class TiledLayer : "cc.TiledLayer" {
+    super : node;
+}
+
+class Toggle : "cc.Toggle" {
+    super : button;
+    toggleGroup : id;
+    checkMark : id;
+    checkEvents : id[];
+    isChecked , "_N$isChecked" : bool;
+}
+
+class ToggleGroup : "cc.ToggleGroup" {
+    super : node;
+    allowSwitchOff : bool;
+}
+
+class VideoPlayer : "cc.VideoPlayer" {
+    super : node;
+    _resourceType : int;
+    _remoteURL : string;
+    _clip : uuid;
+    videoPlayerEvent : id[];
+    keepAspectRatio , "_N$keepAspectRatio" : bool;
+    isFullscreen , "_N$isFullscreen" : bool;
+}
+
+class WebView : "cc.WebView" {
+    super : node;
+    _useOriginalSize : bool;
+    _url : string;
+    webviewEvents : id[];
+}
+
+class Animation : "cc.Animation" {
+    super : node;
+    _defaultClip : uuid;
+    _clips : uuid[];
+    playOnLoad : bool;
+}
+
+class Widget : "cc.Widget" {
+    super : node;
+    isAlignOnce : bool;
+    _target : null;
+    _alignFlags : int;
+    _left : int;
+    _right : int;
+    _top : int;
+    _bottom : int;
+    _verticalCenter : int;
+    _horizontalCenter : int;
+    _isAbsLeft : bool;
+    _isAbsRight : bool;
+    _isAbsTop : bool;
+    _isAbsBottom : bool;
+    _isAbsHorizontalCenter : bool;
+    _isAbsVerticalCenter : bool;
+    _originalWidth : int;
+    _originalHeight : int;
+}
+
+class ClickEvent : "cc.ClickEvent" {
+    target : id;
+    component : string;
+    handler : string;
+    customEventData : string;
+}
+
+class ArmatureDisplay : "dragonBones.ArmatureDisplay" {
+    super : node;
+    _armatureName : string;
+    _animationName : string;
+    playTimes : int;
+    dragonAsset , "_N$dragonAsset" : uuid;
+    dragonAtlasAsset , "_N$dragonAtlasAsset" : uuid;
+    _defaultArmatureIndex , "_N$_defaultArmatureIndex" : int;
+    _animationIndex , "_N$_animationIndex" : int;
+    timeScale , "_N$timeScale" : int;
+    debugBones , "_N$debugBones" : bool;
+}
+
+class AnimationFrameInt {
+    frame : float;
+    value : int;
+}
+
+class AnimationFrameFloat {
+    frame : float;
+    value : float;
+}
+
+class AnimationFramePosition {
+    frame : float;
+    value : int[];
+    motionPath: int[];
+    curve : string;
+}
+
+class AnimationFrameColor {
+    frame : float;
+    value : RGBA;
+}
+
+class AnimationFrameUuid {
+    frame : float;
+    value : uuid;
+}
+
+class AnimationFrameBool {
+    frame : float;
+    value : bool;
+}
+
+class AnimationCurveProp {
+    rotation : AnimationFrameInt[];
+    position : AnimationFramePosition[];
+    scaleX : AnimationFrameFloat[];
+    scaleY : AnimationFrameFloat[];
+    width : AnimationFrameInt[];
+    height : AnimationFrameInt[];
+    color : AnimationFrameColor[];
+    opacity : AnimationFrameInt[];
+    anchorX : AnimationFrameFloat[];
+    anchorY : AnimationFrameFloat[];
+    skewX : AnimationFrameFloat[];
+    skewY : AnimationFrameFloat[];
+}
+
+class AnimationSpriteFrames {
+    enabled : AnimationFrameBool[];
+    spriteFrame : AnimationFrameUuid[];
+    fillType : AnimationFrameInt[];
+    fillCenter : AnimationFrameInt[];
+    fillStart : AnimationFrameInt[];
+    fillRange : AnimationFrameInt[];
+}
+
+class AnimationComps {
+    sprite, "cc.Sprite" : AnimationSpriteFrames;
+}
+
+class AnimationCurveData {
+    props : AnimationCurveProp;
+    comps : AnimationComps;
+    event : id[];
+}
+
+class AnimationClip : "cc.AnimationClip" {
+  _duration : float;
+  sample : int;
+  speed : int;
+  wrapMode : int;
+  curveData : AnimationCurveData;
+}
+
+class Meta {
+    ver : string;
+    uuid : string;
+    isGroup : bool;
+    type : string;
+    wrapMode : string;
+    filterMode : string;
+    subMetas : variant;
 }
