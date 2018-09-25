@@ -1,5 +1,9 @@
 venv
 **/*.pyc
 .idea
-CCreatorParser/parser.out
-CCreatorParser/parsetab.py
+**/parser.out
+**/parsetab.py
+Data/CcScript.*
+cc_model/CcModel.py
+Output/*.cpp
+Output/*.h
