@@ -1,17 +1,10 @@
+import json
+import os
+import importlib
+from optparse import OptionParser
 from cc_grammar import CcScriptParser
 from cc_script.CcScriptPresenter import *
-from cc_model.CcModelBase import CcObject
-import json
-import sys
-import os
-
-if len(sys.argv) > 2 and sys.argv[2] == '--load-script':
-    script = CcScriptParser.parse(script_path='./Data/ccreator.cpp')
-    if not script:
-        raise Exception('parse failed!')
-else:
-    script = None
-from cc_model.CcModel import *
+import cc_model.CcModel
 
 
 class CcAssetsBundle:
@@ -94,7 +87,7 @@ class CcAssetMeta:
     def load(self, path):
         json_file = open(os.path.join(self.bundle.root_path, path), 'r')
         root = json.load(fp=json_file)
-        return Meta(root, None)
+        return cc_model.CcModel.Meta(root, None)
 
     @property
     def uuid(self):
@@ -113,7 +106,7 @@ class CcAssetAnimationClip(CcAssetResource):
     def load(self, path):
         json_file = open(os.path.join(self.bundle.root_path, path), 'r')
         root = json.load(fp=json_file)
-        return AnimationClip(root, None)
+        return cc_model.CcModel.AnimationClip(root, None)
 
 
 class CcAssetScene(CcAssetResource):
@@ -124,20 +117,45 @@ class CcAssetScene(CcAssetResource):
     def load(self, path):
         json_file = open(os.path.join(self.bundle.root_path, path), 'r')
         root = {'name': self.qualified_name, 'items': json.load(fp=json_file)}
-        return Fire(root, None)
+        return cc_model.CcModel.Fire(root, None)
 
     @property
     def qualified_name(self):
         return self.name
 
 
-if __name__ == '__main__':
-    _bundle = CcAssetsBundle(sys.argv[1])
+def main(asset_dir, output_dir):
+    if not output_dir:
+        output_dir = os.path.abspath('Output')
+
+    _bundle = CcAssetsBundle(asset_dir)
     _bundle.load()
-    CcObject.asset_bundle = _bundle.assets
+    cc_model.CcModel.CcObject.asset_bundle = _bundle.assets
     for resource in _bundle.assets.values():
         if isinstance(resource, CcAssetScene):
-            header_file = open(f'Output/{resource.name}.h', 'w')
+            target_path = os.path.join(output_dir, resource.name)
+            header_file = open(f'{target_path}.h', 'w')
             resource.value.write_header(presenter=CcScriptPresenter(header_file))
-            source_file = open(f'Output/{resource.name}.cpp', 'w')
+            source_file = open(f'{target_path}.cpp', 'w')
             resource.value.write_source(presenter=CcScriptPresenter(source_file))
+
+
+if __name__ == '__main__':
+    parser = OptionParser()
+    parser.add_option("-a", "--asset", dest="asset_dir", type='string',
+                      help="specify the assets directory")
+    parser.add_option("-o", "--output", dest="output_dir", type='string',
+                      help="specify the output directory")
+    parser.add_option("-l", "--load-script", action="store_true", dest="load_script",
+                      help="Load and recompile script")
+    (options, args) = parser.parse_args()
+
+    if options.load_script:
+        script = CcScriptParser.parse(script_path='./data/ccreator.cpp')
+        if not script:
+            raise Exception('parse failed!')
+        importlib.reload(cc_model.CcModel)
+    else:
+        script = None
+
+    main(options.asset_dir, options.output_dir)

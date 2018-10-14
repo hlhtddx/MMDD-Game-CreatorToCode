@@ -349,19 +349,19 @@ class Scene : "cc.Scene" extends Item {
 }
 
 class Canvas : "cc.Canvas" extends Item {
-    Size _designResolution;
-    bool _fitWidth;
-    bool _fitHeight;
+    Size designResolution : "_designResolution";
+    bool fitWidth : "_fitWidth";
+    bool fitHeight : "_fitHeight";
     void write_setup_scene() {
         = {
         "// cc.Canvas";
-        "const auto designResolution = ", _designResolution, ";";
+        "const auto designResolution = ", designResolution, ";";
         string policy;
-        if (_fitWidth && _fitHeight)
+        if (fitWidth && fitHeight)
             policy = "ResolutionPolicy::SHOW_ALL";
-        else if (_fitHeight)
+        else if (fitHeight)
             policy = "ResolutionPolicy::FIXED_HEIGHT";
-        else if (_fitWidth)
+        else if (fitWidth)
             policy = "ResolutionPolicy::FIXED_WIDTH";
         else
             policy = "ResolutionPolicy::NO_BORDER";
@@ -427,14 +427,11 @@ internal:
 
     void write_create_scene() {
         "// cc.Button";
-        if (sprite && sprite._spriteFrame) {
+        if (sprite && sprite.spriteFrame) {
             = {
-            string spriteFrameName = find_resource_by_uuid(sprite._spriteFrame.__uuid__);
+            string spriteFrameName = find_resource_by_uuid(sprite.spriteFrame.__uuid__);
             string pressedSpriteName = find_resource_by_uuid(pressedSprite.__uuid__);
             string disabledSpriteName = find_resource_by_uuid(disabledSprite.__uuid__);
-            "/*", spriteFrameName, " uuid=", sprite._spriteFrame.__uuid__, "*/";
-            "/*", pressedSpriteName, " uuid=", pressedSprite.__uuid__, "*/";
-            "/*", disabledSpriteName, " uuid=", disabledSprite.__uuid__, "*/";
             "auto ", Name, " = ui::Button::create(";
                 > {
                 "\"",spriteFrameName, "\",";
@@ -461,9 +458,9 @@ internal:
 }
 
 class EditBox : "cc.EditBox" extends Item {
-    bool _useOriginalSize;
+    bool useOriginalSize : "_useOriginalSize";
     string _string;
-    float _tabIndex;
+    float tabIndex : "_tabIndex";
     Id@ editingDidBegan;
     Id@ textChanged;
     Id@ editingDidEnded;
@@ -483,14 +480,14 @@ class EditBox : "cc.EditBox" extends Item {
 }
 
 class Label : "cc.Label" extends Item {
-    bool _useOriginalSize;
-    int _actualFontSize;
-    int _fontSize;
-    int _lineHeight;
-    bool _enableWrapText;
+    bool useOriginalSize : "_useOriginalSize";
+    int actualFontSize : "_actualFontSize";
+    int fontSize : "_fontSize";
+    int lineHeight : "_lineHeight";
+    bool enableWrapText : "_enableWrapText";
     Uuid file : "_N$file";
-    bool _isSystemFontUsed;
-    int _spacingX;
+    bool isSystemFontUsed : "_isSystemFontUsed";
+    int spacingX : "_spacingX";
     string _string : "_N$string";
     int horizontalAlign : "_N$horizontalAlign";
     int verticalAlign : "_N$verticalAlign";
@@ -527,72 +524,72 @@ class Slider : "cc.Slider" extends Item {
 }
 
 class ParticleSystem : "cc.ParticleSystem" extends Item {
-    bool _custom;
-    Uuid _file;
-    int _srcBlendFactor;
-    int _dstBlendFactor;
+    bool custom : "_custom";
+    Uuid file : "_file";
+    int srcBlendFactor : "_srcBlendFactor";
+    int dstBlendFactor : "_dstBlendFactor";
     bool playOnLoad;
-    bool _autoRemoveOnFinish;
-    int _totalParticles;
-    int _duration;
-    int _emissionRate;
-    int _life;
-    int _lifeVar;
-    Color4B _startColor;
-    Color4B _startColorVar;
-    Color4B _endColor;
-    Color4B _endColorVar;
-    int _angle;
-    int _angleVar;
-    int _startSize;
-    int _startSizeVar;
-    int _endSize;
-    int _endSizeVar;
-    int _startSpin;
-    int _startSpinVar;
-    int _endSpin;
-    int _endSpinVar;
-    Vec2 _sourcePos;
-    Vec2 _posVar;
-    int _positionType;
-    int _emitterMode;
-    Vec2 _gravity;
-    int _speed;
-    int _speedVar;
-    int _tangentialAccel;
-    int _tangentialAccelVar;
-    int _radialAccel;
-    int _radialAccelVar;
-    bool _rotationIsDir;
-    int _startRadius;
-    int _startRadiusVar;
-    int _endRadius;
-    int _endRadiusVar;
-    int _rotatePerS;
-    int _rotatePerSVar;
+    bool autoRemoveOnFinish : "_autoRemoveOnFinish";
+    int totalParticles : "_totalParticles";
+    int duration : "_duration";
+    int emissionRate : "_emissionRate";
+    int life : "_life";
+    int lifeVar : "_lifeVar";
+    Color4B startColor : "_startColor";
+    Color4B startColorVar : "_startColorVar";
+    Color4B endColor : "_endColor";
+    Color4B endColorVar : "_endColorVar";
+    int angle : "_angle";
+    int angleVar : "_angleVar";
+    int startSize : "_startSize";
+    int startSizeVar : "_startSizeVar";
+    int endSize : "_endSize";
+    int endSizeVar : "_endSizeVar";
+    int startSpin : "_startSpin";
+    int startSpinVar : "_startSpinVar";
+    int endSpin : "_endSpin";
+    int endSpinVar : "_endSpinVar";
+    Vec2 sourcePos : "_sourcePos";
+    Vec2 posVar : "_posVar";
+    int positionType : "_positionType";
+    int emitterMode : "_emitterMode";
+    Vec2 gravity : "_gravity";
+    int speed : "_speed";
+    int speedVar : "_speedVar";
+    int tangentialAccel : "_tangentialAccel";
+    int tangentialAccelVar : "_tangentialAccelVar";
+    int radialAccel : "_radialAccel";
+    int radialAccelVar : "_radialAccelVar";
+    bool rotationIsDir : "_rotationIsDir";
+    int startRadius : "_startRadius";
+    int startRadiusVar : "_startRadiusVar";
+    int endRadius : "_endRadius";
+    int endRadiusVar : "_endRadiusVar";
+    int rotatePerS : "_rotatePerS";
+    int rotatePerSVar : "_rotatePerSVar";
     bool preview : "_N$preview";
 }
 
 class Sprite : "cc.Sprite" extends Item {
-    Uuid _spriteFrame;
-    int _type;
-    int _sizeMode;
-    int _fillType;
-    Vec2 _fillCenter;
-    int _fillStart;
-    int _fillRange;
-    bool _isTrimmedMode;
-    int _srcBlendFactor;
-    int _dstBlendFactor;
-    Uuid _atlas;
+    Uuid spriteFrame : "_spriteFrame";
+    int type : "_type";
+    int sizeMode : "_sizeMode";
+    int fillType : "_fillType";
+    Vec2 fillCenter : "_fillCenter";
+    int fillStart : "_fillStart";
+    int fillRange : "_fillRange";
+    bool isTrimmedMode : "_isTrimmedMode";
+    int srcBlendFactor : "_srcBlendFactor";
+    int dstBlendFactor : "_dstBlendFactor";
+    Uuid atlas : "_atlas";
 }
 
 class Skeleton : "sp.Skeleton" extends Item {
-    bool _paused;
+    bool paused : "_paused";
     string defaultSkin;
     string defaultAnimation;
     bool loop;
-    bool _premultipliedAlpha;
+    bool premultipliedAlpha : "_premultipliedAlpha";
     Uuid skeletonData : "_N$skeletonData";
     int timeScale : "_N$timeScale";
     bool debugSlots : "_N$debugSlots";
@@ -600,12 +597,12 @@ class Skeleton : "sp.Skeleton" extends Item {
 }
 
 class TileMap : "cc.TiledMap" extends Item {
-    Uuid _tmxFile;
+    Uuid tmxFile : "_tmxFile";
 }
 
 class Mask : "cc.Mask" extends Item {
-    int _type;
-    int _segements;
+    int type : "_type";
+    int segements : "_segements";
     Uuid spriteFrame : "_N$spriteFrame";
     float alphaThreshold : "_N$alphaThreshold";
     bool inverted : "_N$inverted";
@@ -657,23 +654,23 @@ class ToggleGroup : "cc.ToggleGroup" extends Item {
 }
 
 class VideoPlayer : "cc.VideoPlayer" extends Item {
-    int _resourceType;
-    string _remoteURL;
-    Uuid _clip;
+    int resourceType : "_resourceType";
+    string remoteURL : "_remoteURL";
+    Uuid clip : "_clip";
     Id@ videoPlayerEvent;
     bool keepAspectRatio : "_N$keepAspectRatio";
     bool isFullscreen : "_N$isFullscreen";
 }
 
 class WebView : "cc.WebView" extends Item {
-    bool _useOriginalSize;
-    string _url;
+    bool useOriginalSize : "_useOriginalSize";
+    string url : "_url";
     Id@ webviewEvents;
 }
 
 class ArmatureDisplay : "dragonBones.ArmatureDisplay" extends Item {
-    string _armatureName;
-    string _animationName;
+    string armatureName : "_armatureName";
+    string animationName : "_animationName";
     int playTimes;
     Uuid dragonAsset : "_N$dragonAsset";
     Uuid dragonAtlasAsset : "_N$dragonAtlasAsset";
@@ -684,18 +681,18 @@ class ArmatureDisplay : "dragonBones.ArmatureDisplay" extends Item {
 }
 
 class BoxCollider : "cc.BoxCollider" extends Item {
-    Vec2 _offset;
-    Size _size;
+    Vec2 offset : "_offset";
+    Size size : "_size";
 }
 
 class CircleCollider : "cc.CircleCollider" extends Item {
-    Vec2 _offset;
+    Vec2 offset : "_offset";
     Vec2@ points;
 }
 
 class PolygonCollider : "cc.PolygonCollider" extends Item {
-    Vec2 _offset;
-    Size _size;
+    Vec2 offset : "_offset";
+    Size size : "_size";
 }
 
 class LabelOutline : "cc.LabelOutline" extends Item {
@@ -704,8 +701,8 @@ class LabelOutline : "cc.LabelOutline" extends Item {
 }
 
 class Layout : "cc.Layout" extends Item {
-    Size _layoutSize;
-    int _resize;
+    Size layoutSize : "_layoutSize";
+    int resize : "_resize";
     int layoutType : "_N$layoutType";
     int padding : "_N$padding";
     Size cellSize : "_N$cellSize";
@@ -721,19 +718,19 @@ class Layout : "cc.Layout" extends Item {
 }
 
 class MotionStreak : "cc.MotionStreak" extends Item {
-    int _fadeTime;
-    int _minSeg;
-    int _stroke;
-    Uuid _texture;
-    Color4B _color;
-    bool _fastMode;
+    int fadeTime : "_fadeTime";
+    int minSeg : "_minSeg";
+    int stroke : "_stroke";
+    Uuid texture : "_texture";
+    Color4B color : "_color";
+    bool fastMode : "_fastMode";
     bool preview : "_N$preview";
 }
 
 class PageViewIndicator : "cc.PageViewIndicator" extends Item
 {
-    string _layout;
-    Id _pageView;
+    string layout : "_layout";
+    Id pageView : "_pageView";
     Id@ _indicators;
     Uuid spriteFrame;
     int direction;
@@ -749,9 +746,9 @@ class PrefabInfo : "cc.PrefabInfo" {
 }
 
 class Scrollbar : "cc.Scrollbar" extends Item {
-    Id _scrollView;
-    bool _touching;
-    int _opacity;
+    Id scrollView : "_scrollView";
+    bool touching : "_touching";
+    int opacity : "_opacity";
     bool enableAutoHide;
     int autoHideTime;
     Id handle;
@@ -759,29 +756,29 @@ class Scrollbar : "cc.Scrollbar" extends Item {
 }
 
 class Animation : "cc.Animation" extends Item {
-    Uuid _defaultClip;
+    Uuid defaultClip : "_defaultClip";
     Uuid@ _clips;
     bool playOnLoad;
 }
 
 class Widget : "cc.Widget" extends Item {
     bool isAlignOnce;
-    string _target;
-    int _alignFlags;
-    float _left;
-    float _right;
-    float _top;
-    float _bottom;
-    int _verticalCenter;
-    int _horizontalCenter;
-    bool _isAbsLeft;
-    bool _isAbsRight;
-    bool _isAbsTop;
-    bool _isAbsBottom;
-    bool _isAbsHorizontalCenter;
-    bool _isAbsVerticalCenter;
-    int _originalWidth;
-    int _originalHeight;
+    string target : "_target";
+    int alignFlags : "_alignFlags";
+    float left : "_left";
+    float right : "_right";
+    float top : "_top";
+    float bottom : "_bottom";
+    int verticalCenter : "_verticalCenter";
+    int horizontalCenter : "_horizontalCenter";
+    bool isAbsLeft : "_isAbsLeft";
+    bool isAbsRight : "_isAbsRight";
+    bool isAbsTop : "_isAbsTop";
+    bool isAbsBottom : "_isAbsBottom";
+    bool isAbsHorizontalCenter : "_isAbsHorizontalCenter";
+    bool isAbsVerticalCenter : "_isAbsVerticalCenter";
+    int originalWidth : "_originalWidth";
+    int originalHeight : "_originalHeight";
 }
 
 class ClickEvent : "cc.ClickEvent" {
@@ -866,7 +863,7 @@ class TiledLayer : "cc.TiledLayer" extends Item {
 }
 
 class AnimationClip : "cc.AnimationClip" {
-  float _duration;
+  float duration : "_duration";
   int sample;
   int speed;
   int wrapMode;

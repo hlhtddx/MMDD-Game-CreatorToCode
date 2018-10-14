@@ -497,7 +497,7 @@ def parse(script_path, debug=False, tracking=False):
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
     if parse(script_path=sys.argv[1], debug=True, tracking=False):
-        file = open('Data/CcScript.cpp', 'w')
+        file = open('data/CcScript.cpp', 'w')
         presenter = CcScriptPresenter(file)
         script.represent_cc(presenter=presenter)
         file.close()
